@@ -120,3 +120,37 @@ PyObject *device_stop_cameras(PyObject *self, PyObject *args)
 
     return Py_None;
 }
+
+// Device color control
+PyObject *device_get_color_control(PyObject *self, PyObject *args)
+{
+  DeviceObject *obj;
+  k4a_color_control_command_t command;
+  k4a_color_control_mode_t *mode;
+  int32_t *val;
+
+  PyArg_ParseTuple(args, "Oi", &obj, &command);
+
+  if (K4A_RESULT_SUCCEEDED == k4a_device_get_color_control(obj->device, command, &mode, &val)) {
+    return Py_BuildValue("ii", mode, val);
+  } else {
+    return Py_None;
+  }
+
+}
+
+PyObject *device_set_color_control(PyObject *self, PyObject *args)
+{
+  DeviceObject *obj;
+  k4a_color_control_command_t command;
+  k4a_color_control_mode_t mode;
+  int32_t *val;
+
+  PyArg_ParseTuple(args, "Oiii", &obj, &command, &mode, &val);
+
+  if (K4A_RESULT_SUCCEEDED == k4a_device_set_color_control(obj->device, command, mode, val)) {
+    return Py_True;
+  } else {
+    return Py_False;
+  }
+}

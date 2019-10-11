@@ -16,6 +16,8 @@ static PyMethodDef methods[] = {
     { "device_get_serialnum", device_get_serial_num, METH_VARARGS, "Get device serial number"},
     { "device_start_cameras", device_start_cameras, METH_VARARGS, "Start device cameras"},
     { "device_stop_cameras", device_stop_cameras, METH_VARARGS, "Stop device cameras"},
+    { "device_get_color_control", device_get_color_control, METH_VARARGS, "Get device color control"},
+    { "device_set_color_control", device_set_color_control, METH_VARARGS, "Set device color control"},
     { "device_get_capture", device_get_capture, METH_VARARGS, "Get a capture"},
     { "capture_get_depth_image", py_capture_get_depth_image, METH_VARARGS, "Get a depth image"},
     { "capture_get_color_image", py_capture_get_color_image, METH_VARARGS, "Get a color image"},
