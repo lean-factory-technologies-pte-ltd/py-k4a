@@ -48,3 +48,6 @@ class ColorControl:
         for command in self.command_mappings.items():
             val = self.get(command[0])
             print(f"{command[0]} = {val[1]}")
+
+    def set_mode(self, mode):
+        self.mode = mode
