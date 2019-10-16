@@ -81,3 +81,13 @@ PyObject* py_image_get_stride_bytes(PyObject* self, PyObject* args)
 
     return PyLong_FromLong(k4a_image_get_stride_bytes(obj->image));
 }
+
+PyObject* image_create(PyObject* self, PyObject* args)
+{
+  ImageObject* obj;
+  int width, height, strides;
+  k4a_image_format_t format;
+
+  PyArg_ParseTuple(args, "iiiiO", &format, &width, &height, &strides, &obj);
+  return PyLong_FromLong(k4a_image_create(format, width, height, strides, &obj->image));
+}
