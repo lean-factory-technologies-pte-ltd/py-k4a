@@ -1,4 +1,3 @@
-
 #include <Python.h>
 #include <structmember.h>
 #include <k4a/k4a.h>
