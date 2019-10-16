@@ -6,27 +6,52 @@ from color import ColorControl
 
 faulthandler.enable()
 
-def capture(dev, config, filename='test.jpg'):
+def capture_3D(capture, filename):
+    img = k4a.capture_get_depth_image(capture)
+
+    if img:
+        w = k4a.image_get_width_pixels(img)
+        h = k4a.image_get_height_pixels(img)
+        s = k4a.image_get_stride_bytes(img)
+        print('Capture: {} x {} @ {}'.format(h, w, s / w))
+
+        try:
+            with open(filename, 'wb') as fp:
+                fp.write(k4a.image_get_buffer(img))
+                fp.flush()
+                fp.close()
+        except:
+            import sys
+            print("Unexpected error:", sys.exc_info()[0])
+    else:
+        print('get image failed!')
+
+
+def capture_2D(capture, filename):
+    img = k4a.capture_get_color_image(capture)
+    if img:
+        w = k4a.image_get_width_pixels(img)
+        h = k4a.image_get_height_pixels(img)
+        s = k4a.image_get_stride_bytes(img)
+        print('Capture: {} x {} @ {}'.format(h, w, s / w))
+
+        try:
+            with open(filename, 'wb') as fp:
+                fp.write(k4a.image_get_buffer(img))
+                fp.flush()
+                fp.close()
+        except:
+            import sys
+            print("Unexpected error:", sys.exc_info()[0])
+    else:
+        print('get image failed!')
+
+
+def capture(dev, filename='test.jpg'):
     capture = k4a.Capture()
     res = k4a.device_get_capture(dev, capture, 1000)
     if res == k4a.K4A_WAIT_RESULT_SUCCEEDED:
-        img = k4a.capture_get_color_image(capture)
-        if img:
-            w = k4a.image_get_width_pixels(img)
-            h = k4a.image_get_height_pixels(img)
-            s = k4a.image_get_stride_bytes(img)
-            print('Capture: {} x {} @ {}'.format(h, w, s / w))
-
-            try:
-                with open(filename, 'wb') as fp:
-                    fp.write(k4a.image_get_buffer(img))
-                    fp.flush()
-                    fp.close()
-            except:
-                import sys
-                print("Unexpected error:", sys.exc_info()[0])
-        else:
-            print('get image failed!')
+        capture_3D(capture, filename)
     else:
         print('Capture failed!')
 
@@ -39,7 +64,7 @@ def main():
         color_control = ColorControl(dev)
         params = dict()
         params['exposure_time_absolute'] = 100000
-        params['brightness'] = 255
+        params['brightness'] = 100
 
         color_control.apply_settings(params)
         color_control.show_settings()
@@ -56,7 +81,7 @@ def main():
         config.synchronized_images_only = True
 
         if k4a.device_start_cameras(dev, config):
-            capture(dev, config, f"exposure.jpg")
+            capture(dev, f"exposure.jpg")
         else:
             print("Failed to start cameras!")
 
