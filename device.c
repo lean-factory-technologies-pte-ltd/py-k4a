@@ -153,21 +153,3 @@ PyObject *device_set_color_control(PyObject *self, PyObject *args)
     return Py_False;
   }
 }
-
-PyObject *device_get_calibration(PyObject *self, PyObject *args)
-{
-  DeviceObject *obj;
-  CalibrationObject *calibObj;
-  k4a_depth_mode_t depth_mode;
-  k4a_color_resolution_t color_resolution;
-  k4a_result_t res;
-
-  PyArg_ParseTuple(args, "OiiO", &obj, &depth_mode, &color_resolution);
-
-  res = k4a_device_get_calibration(obj->device, depth_mode, color_resolution, &calibObj->calibration);
-  if (res == K4A_RESULT_SUCCEEDED) {
-    return Py_True;
-  } else {
-    return Py_False;
-  }
-}

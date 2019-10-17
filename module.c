@@ -5,6 +5,7 @@
 
 #include "types.h"
 #include "capture.h"
+#include "image.h"
 #include "device.h"
 #include "gen.h"
 
@@ -26,6 +27,7 @@ static PyMethodDef methods[] = {
     { "image_get_height_pixels", py_image_get_height_pixels, METH_VARARGS, "Get the image height"},
     { "image_get_stride_bytes", py_image_get_stride_bytes, METH_VARARGS, "Get stride width in bytes"},
     { "image_create", image_create, METH_VARARGS, "Create an image"},
+    { "image_to_array", image_to_array, METH_VARARGS, "An array representation of an image"},
     { NULL, NULL, 0, NULL }
 };
 
