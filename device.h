@@ -12,3 +12,6 @@ PyObject* device_stop_cameras(PyObject* self, PyObject* args);
 // Device color control
 PyObject* device_get_color_control(PyObject* self, PyObject* args);
 PyObject* device_set_color_control(PyObject* self, PyObject* args);
+
+// Device calibration
+PyObject* device_get_calibration(PyObject* self, PyObject* args);
