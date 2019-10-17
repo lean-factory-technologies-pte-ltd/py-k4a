@@ -66,11 +66,7 @@ PyObject* image_to_array(PyObject* self, PyObject* args)
     for (int j = 0; j < width; j++) {
       int idx = (width * i) + j;
       int data;
-      data = buf[idx];
-      if (buf[idx] > 255) {
-        data = 255;
-      }
-      PyList_Append(line, Py_BuildValue("i", data));
+      PyList_Append(line, Py_BuildValue("i", buf[idx]));
     }
     PyList_Append(row, line);
   }

@@ -1,6 +1,8 @@
 import sys
 sys.path.append('./build/lib.linux-x86_64-3.6')
 import k4a
+import png
+from sklearn.preprocessing import MinMaxScaler
 import faulthandler
 from color import ColorControl
 
@@ -13,19 +15,14 @@ def capture_3D(capture, filename):
         w = k4a.image_get_width_pixels(img)
         h = k4a.image_get_height_pixels(img)
         s = k4a.image_get_stride_bytes(img)
-        print('Capture: {} x {} @ {}'.format(h, w, s / w))
-
-        try:
-            with open(filename, 'wb') as fp:
-                fp.write(k4a.image_get_buffer(img))
-                fp.flush()
-                fp.close()
-        except:
-            import sys
-            print("Unexpected error:", sys.exc_info()[0])
-    else:
-        print('get image failed!')
-
+        print('Capture: {} x {} @ {}'.format(h, w, s))
+        img_arr = k4a.image_to_array(img)
+        scaler = MinMaxScaler(copy=True, feature_range=(0, 255))
+        scaler.fit(img_arr)
+        scaled_image = scaler.transform(img_arr)
+        print(scaled_image[0])
+        print(scaled_image[1])
+        png.from_array(scaled_image.astype(int).tolist(), 'L').save('test.png')
 
 def capture_2D(capture, filename):
     img = k4a.capture_get_color_image(capture)
